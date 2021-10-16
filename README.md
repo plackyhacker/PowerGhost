@@ -17,7 +17,7 @@ PowerGhost by PlackyHacker
 
 Type 'exit' to close.
 
-[+] Executing AMSI bypass...
+[+] Hooking AMSI for bypass...
 PG C:\Users\Placky> $ExecutionContext.SessionState.LanguageMode
 FullLanguage
 PG C:\Users\Placky>
