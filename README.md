@@ -1,6 +1,8 @@
 # PowerGhost
 A custom run space to bypass AMSI and Constrained Language mode in PowerShell.
 
+<img src="https://github.com/plackyhacker/PowerGhost/blob/main/pg_demo.gif?raw=true" alt="Demo "/>
+
 ## Example running in Meterpreter
 
 ```
